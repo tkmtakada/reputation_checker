@@ -15,6 +15,7 @@ cd frontend/react-ts-app
 ```
 以下のコマンドを打ちます。
 ```
+npm install
 npm start
 ```
 
