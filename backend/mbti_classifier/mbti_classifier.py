@@ -11,12 +11,13 @@ import datetime
 import torch
 import torch.nn as nn
 
-class MBTIClassifier:
+class MBTIClassifier(nn.Module):
     def __init__(self):
+        super(MBTIClassifier, self).__init__()
         self.tokenizer = AutoTokenizer.from_pretrained("bert-base-multilingual-uncased")
         self.model = BertForSequenceClassification.from_pretrained("./output/checkpoint-2165")
 
-    def predict(self, text_ja):
+    def forward(self, text_ja):
         encoded_input = self.tokenizer(text_ja, return_tensors='pt')
         output = self.model(**encoded_input)
         predicted_label = nn.Softmax(dim=1)(output.logits)
@@ -48,5 +49,5 @@ class MBTIClassifier:
 if __name__=="__main__":
     model = MBTIClassifier()
     text_ja = "未来、最高！未来、最高！未来、最高！"
-    output = model.predict(text_ja)
+    output = model(text_ja)
     print(output)
