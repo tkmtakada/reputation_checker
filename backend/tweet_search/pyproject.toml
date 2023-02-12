@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "tweet_search"
+version = "0.1.0"
+description = ""
+authors = ["skypenguins <monomeg.lab@gmail.com>"]
+readme = "README.md"
+packages = [{include = "tweet_search"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.88.0"
+hypercorn = "^0.14.3"
+requests = "^2.28.2"
+authlib = "^1.2.0"
+python-dotenv = "^0.21.1"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.0.0"
+black = "^22.12.0"
+isort = "^5.11.4"
+mypy = "^0.991"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 119
+
+[tool.isort]
+profile = "black"
+line_length = 119
