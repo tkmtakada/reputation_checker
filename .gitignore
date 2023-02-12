@@ -4,3 +4,4 @@ backend/mbti_classifier/mbti_1.csv
 backend/mbti_classifier/dataset
 backend/mbti_classifier/output
 backend/mbti_classifier/wandb
+.DS_Store
