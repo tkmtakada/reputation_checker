@@ -25,6 +25,13 @@ const StyledContainer = styled.div`
   font-size: 20px;
 `; 
 
+// const StyledFooter = styled.footer`
+//   // height: 100px;
+//   text-align: center;
+//   font-size: 20px;
+//   // padding-top: 30px;
+// `; 
+
 function App() {
   return (
     <div style={backgroundCSS}>
@@ -38,6 +45,9 @@ function App() {
         </Typography>  
         <SearchBox />
       </StyledContainer>
+      {/* <StyledFooter>
+        by team Hampo
+      </StyledFooter> */}
     </div>
   );
 }
