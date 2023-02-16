@@ -1,7 +1,6 @@
-import { Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { SearchBox } from './components/SearchBox';
+import { CheckByKeyword } from 'pages/checkbykeyword/CheckByKeyword';
 
 const backgroundCSS = {
   background: 'linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%)',
@@ -16,14 +15,23 @@ const StyledHeader = styled.header`
   padding-top: 30px;
 `;
 
-const StyledContainer = styled.div`
-  // background-color: white;
-  width: 700px;
+const ModeButtonContainer = styled.div`
+  height: 200px;
+  width: 800px;
   margin: auto;
-  height: 70px;
-  text-align: center;
-  font-size: 20px;
-`; 
+  // background-color: gray;
+  display: flex;
+`;
+
+const ModeButton = styled.div`
+  height: 100px;
+  width: 200px;
+  margin: 50px 30px 50px 30px;
+  background-color: gray;
+  border: solid;
+  border-radius: 15px;
+  display: flex;
+`;
 
 // const StyledFooter = styled.footer`
 //   // height: 100px;
@@ -33,18 +41,20 @@ const StyledContainer = styled.div`
 // `; 
 
 function App() {
+  const [ mode, setMode ] = useState(0);
+
   return (
-    <div style={backgroundCSS}>
+    // <div style={backgroundCSS}>
+    <div>
       <StyledHeader>
-        Word Reputation Checker
+        世間の性格Checker
       </StyledHeader>
-      <StyledContainer>
-        <Typography variant="h6">
-          気になる単語を入力して、<br/>
-          単語に対する世間からのリアルタイムな評判を見てみよう！
-        </Typography>  
-        <SearchBox />
-      </StyledContainer>
+      <ModeButtonContainer>
+        <ModeButton onClick={() => setMode(0)}>単語を入力する</ModeButton>
+        <ModeButton onClick={() => setMode(1)}>世間の性格を調べる</ModeButton>
+        <ModeButton onClick={() => setMode(2)}>文章から性格を調べる</ModeButton>
+      </ModeButtonContainer>
+      <CheckByKeyword mode={mode}/>
       {/* <StyledFooter>
         by team Hampo
       </StyledFooter> */}
