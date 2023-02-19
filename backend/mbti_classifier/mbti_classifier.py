@@ -48,6 +48,6 @@ class MBTIClassifier(nn.Module):
 
 if __name__=="__main__":
     model = MBTIClassifier()
-    text_ja = "未来、最高！未来、最高！未来、最高！"
+    text_ja = "楽しいこと大好き" #  "友達は必要ない"  # "未来、最高！未来、最高！未来、最高！"
     output = model(text_ja)
     print(output)
