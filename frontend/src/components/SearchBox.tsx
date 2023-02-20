@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from "@mui/material/TextField";
-import { Box } from '@mui/material';
-import { fetchReputationDataByKeyword } from 'pages/checkbykeyword/api/fetchReputationDataByKeyword';
-
 
 const StyledSearchBox = styled.div`
   margin: 'auto';
@@ -18,7 +15,6 @@ export const SearchBox = ({setQuery}: {setQuery: (query: string) => void}) => {
   const handleSubmit = () => {
     setQuery(word);
   }
-
 
   return (
     <StyledSearchBox>

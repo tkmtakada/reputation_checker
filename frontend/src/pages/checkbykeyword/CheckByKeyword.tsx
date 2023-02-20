@@ -34,11 +34,9 @@ const StyledResult = styled.div`
   margin-top: 50px;
 `;
 
-export const CheckByKeyword = (props: {mode: number}) => {
+export const CheckByKeyword = () => {
   const [ query, setQuery ] = useState("");
   const [ post, setPost ] = useState<responseByKeyword>();
-
-  const {mode} = props;
 
   useEffect(() => {
     if (query) fetchReputationDataByKeyword(query, setPost);
@@ -80,7 +78,6 @@ export const CheckByKeyword = (props: {mode: number}) => {
         <br/>
         {post ? <ResultMbti mbti={post.mbti} /> : ""}
       </StyledResult>
-      {mode}
     </StyledContainer>
   )
 }
