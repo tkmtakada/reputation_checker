@@ -33,7 +33,7 @@ export const CheckByKeyword = () => {
         気になる単語を入力して、<br/>
         単語に対する世間からのリアルタイムな評判を見てみよう！
       </Typography>  
-      <SearchBox setQuery={setQuery}/>
+      <SearchBox setQuery={setQuery} placeholder="単語を入力"/>
       <StyledResult>
         {post ? `「${query}」にまつわるワードクラウド` : ""}
         <br/>
