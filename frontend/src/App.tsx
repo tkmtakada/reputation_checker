@@ -4,6 +4,7 @@ import { CheckByKeyword } from 'pages/checkbykeyword/CheckByKeyword';
 import { Button, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { CheckBySentence } from 'pages/checkbysentence/CheckBySentence';
+import { CheckByTrend } from 'pages/checkbytrend/CheckByTrend';
 
 const backgroundCSS = {
   // background: 'linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%)',
@@ -37,7 +38,7 @@ function App() {
       case 0:
         return <CheckByKeyword />;
       case 1:
-        return <>世間の性格診断</>;
+        return <CheckByTrend />;
       case 2:
         return <CheckBySentence />;
     }

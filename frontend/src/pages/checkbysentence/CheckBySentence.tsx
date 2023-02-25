@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { SearchBox } from "components/SearchBox"
 import { useEffect, useState } from 'react';
+import { fetchReputationDataByKeyword } from 'pages/checkbykeyword/api/fetchReputationDataByKeyword';
+import { MbtiResult } from 'components/MbtiResult';
+import { responseBySentence } from 'types/response';
 
 const StyledContainer = styled.div`
   width: 700px;
@@ -18,19 +21,24 @@ const StyledResult = styled.div`
 
 export const CheckBySentence = () => {
   const [ query, setQuery ] = useState("");
-  const [ post, setPost ] = useState("");
+  const [ post, setPost ] = useState<responseBySentence>();
 
-  useEffect(() => {}, []);
-
+  useEffect(() => {
+    if (query) fetchReputationDataByKeyword(query, setPost);
+  }, [query]);
+  
   return (
     <StyledContainer>
       <Typography variant="h6">
-        入力した文章をMBTI診断してみよう！      </Typography>  
+        入力した文章をMBTI診断してみよう！
+      </Typography>  
       <SearchBox setQuery={setQuery}/>
       <StyledResult>
-        {post ? `「${query}」にまつわるワードクラウド` : ""}
+        {post ? `「${query}」` : ""}
         <br/>
-        {post ? `「${query}」を気になっている人たちのMBTI診断結果は...` : ""}
+        {post ? `のMBTI診断結果は...` : ""}
+        <br/>
+        {post ? <MbtiResult mbti={post.mbti} /> : ""}
       </StyledResult>
     </StyledContainer>
   )
