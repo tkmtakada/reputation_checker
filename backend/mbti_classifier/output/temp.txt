@@ -1,0 +1,3 @@
+download the checkpoints folder(= a folder that contains the trained model's parameters) and save it here.
+the directory tree will be like below:
+/mbti_classifier/output/checkpoint-best/
