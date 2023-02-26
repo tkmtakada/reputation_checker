@@ -20,7 +20,10 @@ headers = {
 }
 
 # 訓練済みBertをロードする
-model = MBTIClassifier()
+if os.environ.get("USER") == 'takumi':
+    model = MBTIClassifier()
+else:
+    model = lambda x : "INFP"  # 常にINFPを返すダミーモデル
 
 app = FastAPI()
 
