@@ -5,7 +5,7 @@ import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-
+from mbti_classifier.mbti_classifier import *
 
 # .envファイル内のaccess_tokenを読み込む
 load_dotenv()
@@ -18,6 +18,9 @@ headers = {
     "Authorization": f"Bearer {os.environ['ACCESS_TOKEN']}",
     "User-Agent": "api-demo",
 }
+
+# 訓練済みBertをロードする
+model = MBTIClassifier()
 
 app = FastAPI()
 
@@ -32,6 +35,13 @@ async def test(q="Twitter API 有料化"):
     res = get_tweet(q)
     return JSONResponse(res)
 
+
+@app.get("/predict_mbti")
+async def predict_mbti(text = "Hope!"):
+    output = model(text)
+    print("INPUT TEXT: ", text)
+    print("PREDICTED MBTI: ", output)
+    return model(text)
 
 # ツイートを検索
 def get_tweet(q):

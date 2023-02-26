@@ -15,7 +15,7 @@ class MBTIClassifier(nn.Module):
     def __init__(self):
         super(MBTIClassifier, self).__init__()
         self.tokenizer = AutoTokenizer.from_pretrained("bert-base-multilingual-uncased")
-        self.model = BertForSequenceClassification.from_pretrained("./output/checkpoint-best")
+        self.model = BertForSequenceClassification.from_pretrained("./mbti_classifier/output/checkpoint-best")
 
     def forward(self, text_ja):
         encoded_input = self.tokenizer(text_ja, return_tensors='pt')
