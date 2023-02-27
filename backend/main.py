@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from mbti_classifier.mbti_classifier import *
+from starlette.middleware.cors import CORSMiddleware # 追加
+# from pdb import set_trace as db
+
 
 # .envファイル内のaccess_tokenを読み込む
 load_dotenv()
@@ -21,12 +24,20 @@ headers = {
 
 # 訓練済みBertをロードする
 if os.environ.get("USER") == 'takumi':
-    model = MBTIClassifier()
+    model = lambda x : "INFP"  # MBTIClassifier()
 else:
     model = lambda x : "INFP"  # 常にINFPを返すダミーモデル
 
 app = FastAPI()
 
+# CORSを回避するために追加（今回の肝）
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,   # 追記により追加
+    allow_methods=["*"],      # 追記により追加
+    allow_headers=["*"]       # 追記により追加
+)
 
 @app.get("/")
 async def root():
@@ -44,7 +55,7 @@ async def predict_mbti(text = "Hope!"):
     output = model(text)
     print("INPUT TEXT: ", text)
     print("PREDICTED MBTI: ", output)
-    return model(text)
+    return JSONResponse({"mbti": output})
 
 # ツイートを検索
 def get_tweet(q):
@@ -66,14 +77,25 @@ def get_trend():
     if response.status_code != 200:
         raise Exception("Request returned an error: {} {}".format(response.status_code, response.text))
     res = json.loads(response.text)
-
+    
+    
+    
     # トレンド単語を10個抽出
+    related_tweets = []
     for r in res:
         word = r["trends"][0]["name"]
         # トレンド単語に関するツイートを検索
-        related_tweets = get_tweet(word)
+        related_tweets.append(get_tweet(word))
+    print("related_tweets", json.loads(related_tweets[0]).keys())
+    json_tweet = json.loads(related_tweets[0])
+    print("related_tweets", json_tweet["statuses"][0]["text"])
 
-    for t in related_tweets["statuses"]:
-        print(t["text"])
+    # db()
 
-    return related_tweets
+
+    for _t in related_tweets:
+        for t in _t:
+            pass
+            # print(t["statuses"]["text"])
+
+    return None # related_tweets
