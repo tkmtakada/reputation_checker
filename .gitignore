@@ -26,3 +26,4 @@ backend/mbti_classifier/temp3.py
 backend/.env
 .vscode/launch.json
 frontend/yarn.lock
+frontend/yarn.lock

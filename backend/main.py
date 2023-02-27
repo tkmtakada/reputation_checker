@@ -77,25 +77,32 @@ def get_trend():
     if response.status_code != 200:
         raise Exception("Request returned an error: {} {}".format(response.status_code, response.text))
     res = json.loads(response.text)
-    
+    print("trend res: ", res)
     
     
     # トレンド単語を10個抽出
     related_tweets = []
-    for r in res:
-        word = r["trends"][0]["name"]
+    counter = 0
+    for r in res[0]["trends"]:
+        word = r["name"]
         # トレンド単語に関するツイートを検索
+        print("trend word: ", word)
         related_tweets.append(get_tweet(word))
+        counter += 1
+        if counter >= 10: break
+
     print("related_tweets", json.loads(related_tweets[0]).keys())
     json_tweet = json.loads(related_tweets[0])
     print("related_tweets", json_tweet["statuses"][0]["text"])
 
     # db()
 
-
-    for _t in related_tweets:
-        for t in _t:
-            pass
+    tweets_list = []
+    for str_tweet_list_per_keyword in related_tweets:
+        tweet_list_per_keyword = json.loads(str_tweet_list_per_keyword)["statuses"]
+        for tweet_info in tweet_list_per_keyword:
+            tweet = tweet_info["text"]
+            tweets_list.append(tweet)
             # print(t["statuses"]["text"])
 
-    return None # related_tweets
+    return tweets_list
