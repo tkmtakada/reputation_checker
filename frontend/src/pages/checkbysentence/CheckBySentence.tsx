@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { SearchBox } from "components/SearchBox"
 import { useEffect, useState } from 'react';
-import { fetchReputationDataByKeyword } from 'pages/checkbykeyword/api/fetchReputationDataByKeyword';
+import { fetchReputationDataBySentence } from 'pages/checkbysentence/api/fetchReputationDataBySentence';
 import { MbtiResult } from 'components/MbtiResult';
 import { responseBySentence } from 'types/response';
 
@@ -24,7 +24,7 @@ export const CheckBySentence = () => {
   const [ post, setPost ] = useState<responseBySentence>();
 
   useEffect(() => {
-    if (query) fetchReputationDataByKeyword(query, setPost);
+    if (query) fetchReputationDataBySentence(query, setPost);
   }, [query]);
   
   return (
