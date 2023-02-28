@@ -5,7 +5,7 @@ const baseURL = process.env.REACT_APP_BACKEND_API_URL;
 
 export const fetchReputationDataBySentence = (query: string, setPost: (post: responseBySentence) => void) => {
   axios
-    .get(`${baseURL}/api/check-reputation-by-sentence?text=${query}`)
+    .get(`${baseURL}/predict_mbti?text=${query}`)
     .then((res) => {
       setPost(res.data);
     })
