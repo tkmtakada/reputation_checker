@@ -3,13 +3,16 @@ import json
 
 import requests
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import FileResponse
+
 from starlette.middleware.cors import CORSMiddleware # 追加
 
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-from janome.tokenizer import Tokenizer
+# from janome.tokenizer import Tokenizer
 from io import BytesIO
 # from pdb import set_trace as db
 
@@ -28,7 +31,7 @@ headers = {
 
 # 訓練済みBertをロードする
 if os.environ.get("USER") == 'takumi':
-    from mbti_classifier.mbti_classifier import *
+    # from mbti_classifier.mbti_classifier import *
     model = lambda x : "INFP"  # MBTIClassifier()
 else:
     model = lambda x : "INFP"  # 常にINFPを返すダミーモデル
@@ -55,8 +58,14 @@ async def test(q="Twitter API 有料化"):
     return JSONResponse(res)
 
 @app.get("/get_wordcloud")
+# send bytes data
+# https://fastapi.tiangolo.com/ja/advanced/custom-response/
+# https://qiita.com/honda28/items/85e653afccb9d387b522
 async def get_wordcloud(text="桜　満開"):
-    fpath='/Users/riki/Downloads/ipag00303/ipag.ttf'#日本語設定＃
+    if os.environ.get("USER") == 'riki':        
+        fpath='/Users/riki/Downloads/ipag00303/ipag.ttf'#日本語設定＃
+    elif os.environ.get("USER") == 'takumi':
+        fpath='/home/takumi/Downloads/ipag00303/ipag.ttf'#日本語設定＃
     wordcloud=WordCloud(
     height=600,
     width=900,
@@ -71,9 +80,17 @@ async def get_wordcloud(text="桜　満開"):
     plt.imshow(wordcloud)
     plt.axis("off")
     figfile = BytesIO()
-    plt.savefig(figfile)    
+    plt.savefig(figfile)
+    bdata = figfile.getvalue()
+    print(type(bdata))
 
-    return str(figfile.getvalue())
+    return Response(content=bdata, media_type="/image/png")  # ダウンロードされる
+    # return Response(content=bdata)  # , media_type="/image/png")
+
+    # https://github.com/yoheiMune/frontend-playground/tree/master/024-multipart-form-data#post-body-1
+    # 参考
+    # return Response(content=bdata, media_type="/multipart/form-data; boundary=----WebKitFormBoundaryO5quBRiT4G7Vm3R7")  # ダウンロードされる
+
 
 @app.get("/predict_mbti")
 async def predict_mbti(text = "Hope!"):
