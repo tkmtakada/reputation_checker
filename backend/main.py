@@ -5,8 +5,12 @@ import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-from mbti_classifier.mbti_classifier import *
 from starlette.middleware.cors import CORSMiddleware # 追加
+
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+from janome.tokenizer import Tokenizer
+from io import BytesIO
 # from pdb import set_trace as db
 
 
@@ -24,6 +28,7 @@ headers = {
 
 # 訓練済みBertをロードする
 if os.environ.get("USER") == 'takumi':
+    from mbti_classifier.mbti_classifier import *
     model = lambda x : "INFP"  # MBTIClassifier()
 else:
     model = lambda x : "INFP"  # 常にINFPを返すダミーモデル
@@ -49,6 +54,26 @@ async def test(q="Twitter API 有料化"):
     res = get_tweet(q)
     return JSONResponse(res)
 
+@app.get("/get_wordcloud")
+async def get_wordcloud(text="桜　満開"):
+    fpath='/Users/riki/Downloads/ipag00303/ipag.ttf'#日本語設定＃
+    wordcloud=WordCloud(
+    height=600,
+    width=900,
+    background_color="white",
+    max_words=6,
+    min_font_size=40,
+    max_font_size=200,
+    collocations=False,
+    font_path=fpath,
+    ).generate(text)
+    plt.figure(figsize=(15,12))
+    plt.imshow(wordcloud)
+    plt.axis("off")
+    figfile = BytesIO()
+    plt.savefig(figfile)    
+
+    return str(figfile.getvalue())
 
 @app.get("/predict_mbti")
 async def predict_mbti(text = "Hope!"):
