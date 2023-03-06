@@ -14,6 +14,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 # from janome.tokenizer import Tokenizer
 from io import BytesIO
+import base64
 # from pdb import set_trace as db
 
 
@@ -83,8 +84,10 @@ async def get_wordcloud(text="桜　満開"):
     plt.savefig(figfile)
     bdata = figfile.getvalue()
     print(type(bdata))
+    print("base64 string; ", base64.b64encode(bdata).decode())
 
-    return Response(content=bdata, media_type="/image/png")  # ダウンロードされる
+    return JSONResponse({"image":base64.b64encode(bdata).decode()})
+    # return Response(content=bdata, media_type="/image/png")  # ダウンロードされる
     # return Response(content=bdata)  # , media_type="/image/png")
 
     # https://github.com/yoheiMune/frontend-playground/tree/master/024-multipart-form-data#post-body-1
@@ -148,3 +151,43 @@ def get_trend():
             # print(t["statuses"]["text"])
 
     return tweets_list
+
+@app.get("/fetch_reputation_data_by_keywords")
+def fetch_reputation_data_by_keywords(keywords : str):
+    """
+    1 関連するツイートを取得
+    2 ワードクラウドをつくる＆画像をかえす
+    3 MBTIをかえす
+    """
+    print(keywords)
+    res = get_wordcloud("a b c d ef f")
+
+    # 
+    if os.environ.get("USER") == 'riki':        
+        fpath='/Users/riki/Downloads/ipag00303/ipag.ttf'#日本語設定＃
+    elif os.environ.get("USER") == 'takumi':
+        fpath='/home/takumi/Downloads/ipag00303/ipag.ttf'#日本語設定＃
+    wordcloud=WordCloud(
+    height=600,
+    width=900,
+    background_color="white",
+    max_words=6,
+    min_font_size=40,
+    max_font_size=200,
+    collocations=False,
+    font_path=fpath,
+    ).generate(" 桜　満開")
+    plt.figure(figsize=(15,12))
+    plt.imshow(wordcloud)
+    plt.axis("off")
+    figfile = BytesIO()
+    plt.savefig(figfile)
+    bdata = figfile.getvalue()
+    print(type(bdata))
+    print("base64 string; ", base64.b64encode(bdata).decode())
+
+    b64str = base64.b64encode(bdata).decode()
+    
+
+    return JSONResponse({"mbti": "INFP",
+                        "image": b64str })
