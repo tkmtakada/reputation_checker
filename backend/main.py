@@ -123,6 +123,8 @@ def generate_wordcloud(sentence_list):
         fpath='/Users/riki/Downloads/ipag00303/ipag.ttf'#日本語設定＃
     elif os.environ.get("USER") == 'takumi':
         fpath='/home/takumi/Downloads/ipag00303/ipag.ttf'#日本語設定＃
+    else:
+        fpath='NotoSansCJKjp-Regular.otf'
     text = "".join(sentence_list)
     wordcloud=WordCloud(
     height=600,
@@ -169,6 +171,8 @@ async def get_wordcloud(text="桜　満開"):
         fpath='/Users/riki/Downloads/ipag00303/ipag.ttf'#日本語設定＃
     elif os.environ.get("USER") == 'takumi':
         fpath='/home/takumi/Downloads/ipag00303/ipag.ttf'#日本語設定＃
+    else:
+        fpath='NotoSansCJKjp-Regular.otf'
     wordcloud=WordCloud(
     height=600,
     width=900,
@@ -241,7 +245,7 @@ def get_trend():
             # --- 文章中のURL を除去 ---
             tweet = re.sub(r"(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)", "" ,tweet)
             # --- remove emoji ---
-            tweet = emoji.replace_emoji(string)
+            tweet = emoji.replace_emoji(tweet)
             tweets_list.append(tweet)
             # print(t["statuses"]["text"])
 
