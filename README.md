@@ -29,3 +29,22 @@ Huggingfaceライブラリを用いてmulti-lingual BERTを使っています。
 
 ダウンロードしたフォルダは以下のようになるように置きます。
 `backend/mbti_classifier/output/checkpoint-best`
+
+# Frontend/Dockerfileについて
+kubernetes使いたかったので追加しました。
+[これ](https://zenn.dev/ysmtegsr/articles/258a2ac221a036e18d6b)参考にしてます。
+
+もうすでにDocker Hubにはimageをuploadしておきました。tkmtakada/reputation-checker-reactです。
+```
+minikube start
+kubectl apply --filename ./deployment-service-react.yaml
+minikube service react-k8s-sample
+```
+で、アプリのデプロイとアドレスの公開までできます
+
+終える時は、
+```
+kubectl delete --filename ./deployment-service-react.yaml  # stop deployment and service
+minikube stop  # stop cluster
+minikube delete  # delete cluster
+```
