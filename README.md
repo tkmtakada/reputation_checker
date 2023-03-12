@@ -35,10 +35,18 @@ kubernetes使いたかったので追加しました。
 [これ](https://zenn.dev/ysmtegsr/articles/258a2ac221a036e18d6b)参考にしてます。
 
 もうすでにDocker Hubにはimageをuploadしておきました。tkmtakada/reputation-checker-reactです。
+Docker build の仕方
+```
+docker build --tag tkmtakada/reputation-checker-react:latest --no-cache . 
+docker run --name reputation-checker-react --rm --publish 3000:80 tkmtakada/reputation-checker-react:latest
+docker push tkmtakada/reputation-checker-react:latest 
+```
+
+
 ```
 minikube start
 kubectl apply --filename ./deployment-service-react.yaml
-minikube service react-k8s-sample
+minikube service reputation-checker-react
 ```
 で、アプリのデプロイとアドレスの公開までできます
 

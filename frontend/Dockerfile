@@ -11,4 +11,8 @@ FROM nginx:1.20-alpine
 
 COPY --from=builder /usr/local/app/build /usr/share/nginx/html
 
-CMD [ "nginx", "-g", "daemon off;" ]
+COPY startup.sh /startup.sh
+RUN chmod 744 /startup.sh
+
+# CMD [ "nginx", "-g", "daemon off;" ]
+CMD ["/startup.sh"]

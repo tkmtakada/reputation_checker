@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CheckByKeyword } from 'pages/checkbykeyword/CheckByKeyword';
 import { Button, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { CheckBySentence } from 'pages/checkbysentence/CheckBySentence';
 import { CheckByTrend } from 'pages/checkbytrend/CheckByTrend';
+// import raw_text from `${process.env.PUBLIC_URL}/hostname.text`;
+// import { text} from "./getHostname";
 
 const backgroundCSS = {
   // background: 'linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%)',
@@ -32,6 +34,15 @@ const ModeButtonContainer = styled.div`
 
 function App() {
   const [ mode, setMode ] = useState(0);
+  const [ hostname, setHostname] = useState("");
+
+  const getHostname = async () => {
+    const reponse = await fetch(`${process.env.PUBLIC_URL}/hostname.txt`);
+    const text = await reponse.text();
+    setHostname(text);
+    return text;
+  };
+
 
   const Mode = ({mode}: {mode: number}) => {
     switch(mode) {
@@ -45,8 +56,15 @@ function App() {
     return null;
   }
 
+  useEffect(
+    () => {
+      getHostname();
+    }, [hostname]
+  );
+
   return (
     <div style={backgroundCSS}>
+      <div>{`pod name : ${hostname}`}</div>
       <StyledHeader>
         世間の性格Checker
       </StyledHeader>
