@@ -14,6 +14,10 @@ from fastapi.responses import FileResponse
 from fastapi.encoders import jsonable_encoder
 from starlette.middleware.cors import CORSMiddleware  # 追加
 
+# Mac用のおまじない
+import matplotlib
+
+matplotlib.use("Agg")
 # from janome.tokenizer import Tokenizer
 # from pdb import set_trace as db
 
