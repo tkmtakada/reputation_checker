@@ -150,6 +150,21 @@ def generate_wordcloud(sentence_list):
     # return JSONResponse({"image":base64.b64encode(bdata).decode()})
 
 
+# 空のツイートとそれに対応する性格を削除
+
+
+def delete_empty_tweet_from_list(tweets_list, mbti_list):
+    new_tweets_list = []
+    new_mbti_list = []
+    for t, m in zip(tweets_list, mbti_list):
+        print(f"[{len(t)}]: {t}")
+        if len(t) != 0:
+            new_tweets_list.append(t)
+            new_mbti_list.append(m)
+
+    return new_tweets_list, new_mbti_list
+
+
 # ===========================
 #    DEFINE CONTROLLOERS
 # ===========================
@@ -284,6 +299,8 @@ def fetch_reputation_data_by_keywords(keywords: str):
 
     wordcloud_image = generate_wordcloud(tweets_list)
     mbti_list = [model(tweet) for tweet in tweets_list]
+
+    tweets_list, mbti_list = delete_empty_tweet_from_list(tweets_list, mbti_list)
     return JSONResponse({"image": wordcloud_image, "tweets_list": tweets_list, "mbti_list": mbti_list})
 
     # #######################
@@ -337,4 +354,5 @@ def fetch_reputation_data_by_trend():
     wordcloud_image = generate_wordcloud(tweets_list)
     mbti_list = [model(tweet) for tweet in tweets_list]
     mbti_all = model("".join(tweets_list))
+    tweets_list, mbti_list = delete_empty_tweet_from_list(tweets_list, mbti_list)
     return JSONResponse({"image": wordcloud_image, "tweet": tweets_list, "mbti": mbti_list, "mbti_all": mbti_all})
