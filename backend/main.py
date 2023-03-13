@@ -56,7 +56,7 @@ app.add_middleware(
 # ツイートを検索
 def get_tweet(q):
     # endpointに付けるパラメータ
-    params = {"q": q}
+    params = {"q": q, "count": 100, "tweet_mode": "extended"}  # 140文字以上のツイートを省略せずに取得するパラメータ
 
     # リクエストを送信し、応答を取得
     response = requests.request("GET", url=search_endpoint, params=params, headers=headers)
@@ -90,7 +90,7 @@ def get_tweets_about_trend():
 
     print("related_tweets", json.loads(related_tweets[0]).keys())
     json_tweet = json.loads(related_tweets[0])
-    print("related_tweets", json_tweet["statuses"][0]["text"])
+    print("related_tweets", json_tweet["statuses"][0]["full_text"])
 
     # db()
 
@@ -98,7 +98,7 @@ def get_tweets_about_trend():
     for str_tweet_list_per_keyword in related_tweets:
         tweet_list_per_keyword = json.loads(str_tweet_list_per_keyword)["statuses"]
         for tweet_info in tweet_list_per_keyword:
-            tweet = tweet_info["text"]
+            tweet = tweet_info["full_text"]
             # --- 文章中のURL を除去 ---
             tweet = re.sub(r"(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)", "", tweet)
             # --- remove emoji ---
@@ -114,8 +114,7 @@ def get_tweets_about_trend():
             tweets_list.append(tweet)
             # print(t["statuses"]["text"])
 
-    return tweets_list, trend_word_list
-
+    return delete_empty_tweet_from_list(tweets_list, trend_word_list)
 
 
 # sentence --> byte data of PNG word cloud image
@@ -230,7 +229,7 @@ async def predict_mbti(text="Hope!"):
 
 @app.get("/get_trend")
 def get_trend():
-    params = {"id": 23424856}
+    params = {"id": 23424856, "tweet_mode": "extended"}  # 140文字以上のツイートを省略せずに取得するパラメータ
 
     response = requests.request("GET", url=trend_endpoint, params=params, headers=headers)
     if response.status_code != 200:
@@ -252,7 +251,7 @@ def get_trend():
 
     print("related_tweets", json.loads(related_tweets[0]).keys())
     json_tweet = json.loads(related_tweets[0])
-    print("related_tweets", json_tweet["statuses"][0]["text"])
+    print("related_tweets", json_tweet["statuses"][0]["full_text"])
 
     # db()
 
@@ -260,7 +259,7 @@ def get_trend():
     for str_tweet_list_per_keyword in related_tweets:
         tweet_list_per_keyword = json.loads(str_tweet_list_per_keyword)["statuses"]
         for tweet_info in tweet_list_per_keyword:
-            tweet = tweet_info["text"]
+            tweet = tweet_info["full_text"]
             # --- 文章中のURL を除去 ---
             tweet = re.sub(r"(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)", "", tweet)
             # --- remove emoji ---
@@ -283,7 +282,8 @@ def fetch_reputation_data_by_keywords(keywords: str):
     for tweet_info in tweets_info_list["statuses"]:
         # print(len(tweets_info_list["statuses"]))
         # print(tweets_info_list["statuses"][0]["text"])
-        tweet = tweet_info["text"]
+        tweet = tweet_info["full_text"]
+
         # --- 文章中のURL を除去 ---
         tweet = re.sub(r"(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)", "", tweet)
         # --- remove emoji ---
