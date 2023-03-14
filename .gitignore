@@ -9,9 +9,21 @@ frontend/.env.production.local
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
+frontend/yarn.lock
 
 # backend
+backend/__pycache__
+backend/mbti_classifier/__pycache__
 backend/mbti_classifier/mbti_1.csv
 backend/mbti_classifier/dataset
 backend/mbti_classifier/output
 backend/mbti_classifier/wandb
+.DS_Store
+
+backend/mbti_classifier/temp.py
+backend/mbti_classifier/temp2.py
+backend/mbti_classifier/temp3.py
+backend/.env
+.vscode/launch.json
+frontend/yarn.lock
+frontend/yarn.lock

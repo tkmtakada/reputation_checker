@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { SearchBox } from "components/SearchBox"
 import { useEffect, useState } from 'react';
-import { fetchReputationDataBySentence } from 'pages/checkbysentence/api/fetchReputationDataBySentence';
+import { fetchReputationDataByKeyword } from 'pages/checkbykeyword/api/fetchReputationDataByKeyword';
+import { fetchReputationDataBySentence } from './api/fetchReputationDataBySentence';
 import { MbtiResult } from 'components/MbtiResult';
 import { responseBySentence } from 'types/response';
 
