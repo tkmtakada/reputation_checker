@@ -19,6 +19,10 @@ const StyledResult = styled.div`
   margin-top: 50px;
 `;
 
+const StyledWordcloudContainer = styled.div`
+  margin: auto;
+`;
+
 export const CheckByKeyword = () => {
   const [ query, setQuery ] = useState("");
   const [ post, setPost ] = useState<responseByKeyword>();
@@ -37,7 +41,11 @@ export const CheckByKeyword = () => {
       <StyledResult>
         {post ? `「${query}」にまつわるワードクラウド` : ""}
         <br/>
-        {post? <img src={`data:image/png;base64,${post.image}`} width="350px" alt="base64"/> : ""}
+        {post? 
+        <StyledWordcloudContainer>
+          <img src={`data:image/png;base64,${post.image}`} width="350px" alt="base64"/>
+        </StyledWordcloudContainer>
+         : ""}
         {post ? `「${query}」を気になっている人たちのMBTI診断結果は...` : ""}
         <br/>
         {post ? <MbtiResult mbti={post.mbti} /> : ""}

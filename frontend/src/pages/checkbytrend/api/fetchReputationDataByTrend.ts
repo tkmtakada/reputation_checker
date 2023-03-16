@@ -5,7 +5,7 @@ const baseURL = process.env.REACT_APP_BACKEND_API_URL;
 
 export const fetchReputationDataByTrend = (setPost: (post: responseByTrend) => void) => {
   axios
-    .get(`${baseURL}/api/get-trend`)
+    .get(`http://127.0.0.1:8000/fetch_reputation_data_by_trend`)
     .then((res) => {
       setPost(res.data);
     })

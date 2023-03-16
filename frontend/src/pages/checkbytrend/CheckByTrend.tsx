@@ -17,8 +17,14 @@ const StyledResult = styled.div`
   margin-top: 50px;
 `;
 
+const StyledWordcloudContainer = styled.div`
+  margin: auto;
+`;
+
 export const CheckByTrend = () => {
   const [ post, setPost ] = useState<responseByTrend>();
+
+
 
   console.log(post)
   return (
@@ -29,6 +35,12 @@ export const CheckByTrend = () => {
       <StyledResult>
         {post ? `「${post.trend}」にまつわるワードクラウド` : ""}
       </StyledResult>
+      {/* wordcloud */}
+      {post? 
+        <StyledWordcloudContainer>
+          <img src={`data:image/png;base64,${post.image}`} width="350px" alt="base64"/>
+        </StyledWordcloudContainer>
+         : ""}
     </StyledContainer>
   )
 }

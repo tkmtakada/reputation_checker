@@ -54,7 +54,8 @@ app.add_middleware(
 # ツイートを検索
 def get_tweet(q):
     # endpointに付けるパラメータ
-    params = {"q": q}
+    params = {"q": q,
+              "count": 100}
 
     # リクエストを送信し、応答を取得
     response = requests.request("GET", url=search_endpoint, params=params, headers=headers)
@@ -130,7 +131,7 @@ def generate_wordcloud(sentence_list):
     height=600,
     width=900,
     background_color="white",
-    max_words=6,
+    max_words=100,
     min_font_size=40,
     max_font_size=200,
     collocations=False,
@@ -143,7 +144,7 @@ def generate_wordcloud(sentence_list):
     plt.savefig(figfile)
     byteData = figfile.getvalue()
     base64data = base64.b64encode(byteData).decode()
-    print("base64 string; ", base64data)
+    # print("base64 string; ", base64data)
     return base64data
 
     # return JSONResponse({"image":base64.b64encode(bdata).decode()})
@@ -335,7 +336,8 @@ def fetch_reputation_data_by_trend():
     wordcloud_image = generate_wordcloud(tweets_list)
     mbti_list = [model(tweet) for tweet in tweets_list]
     mbti_all = model("".join(tweets_list))
-    return JSONResponse({"image": wordcloud_image,
+    return JSONResponse({"trend": trend_word_list,
+                        "image": wordcloud_image,
                          "tweet":tweets_list,
                          "mbti":mbti_list,
                          "mbti_all": mbti_all})
