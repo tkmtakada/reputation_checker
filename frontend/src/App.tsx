@@ -7,12 +7,14 @@ import { CheckBySentence } from 'pages/checkbysentence/CheckBySentence';
 import { CheckByTrend } from 'pages/checkbytrend/CheckByTrend';
 // import raw_text from `${process.env.PUBLIC_URL}/hostname.text`;
 // import { text} from "./getHostname";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const backgroundCSS = {
   // background: 'linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%)',
-  height: '100vh',
+  //height: '100vh',
   width: '800px',
-  margin: 'auto'
+  margin: 'auto',
+  backgroundColor: '#f5f5f5'
 }
 
 const StyledHeader = styled.header`

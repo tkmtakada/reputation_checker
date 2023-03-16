@@ -9,8 +9,9 @@ export type responseBySentence = {
 }
 
 export type responseByTrend = {
-  trend: string;
+  trend: string[];
   tweet: string[];
   mbti: string[];
+  mbti_all: string;
   image?: string;
 }

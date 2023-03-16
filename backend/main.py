@@ -54,8 +54,8 @@ app.add_middleware(
 # ツイートを検索
 def get_tweet(q):
     # endpointに付けるパラメータ
-    params = {"q": q,
-              "count": 100}
+    params = {"q": q, "count": 100, "tweet_mode": "extended"}  # 140文字以上のツイートを省略せずに取得するパラメータ
+
 
     # リクエストを送信し、応答を取得
     response = requests.request("GET", url=search_endpoint, params=params, headers=headers)
@@ -90,7 +90,7 @@ def get_tweets_about_trend():
 
     print("related_tweets", json.loads(related_tweets[0]).keys())
     json_tweet = json.loads(related_tweets[0])
-    print("related_tweets", json_tweet["statuses"][0]["text"])
+    print("related_tweets", json_tweet["statuses"][0]["full_text"])
 
     # db()
 
@@ -98,7 +98,7 @@ def get_tweets_about_trend():
     for str_tweet_list_per_keyword in related_tweets:
         tweet_list_per_keyword = json.loads(str_tweet_list_per_keyword)["statuses"]
         for tweet_info in tweet_list_per_keyword:
-            tweet = tweet_info["text"]
+            tweet = tweet_info["full_text"]
             # --- 文章中のURL を除去 ---
             tweet = re.sub(r"(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)", "" ,tweet)
             # --- remove emoji ---
@@ -115,6 +115,8 @@ def get_tweets_about_trend():
             # print(t["statuses"]["text"])
 
     return tweets_list, trend_word_list
+    # return delete_empty_tweet_from_list(tweets_list, trend_word_list)
+
 
 
 
@@ -149,6 +151,17 @@ def generate_wordcloud(sentence_list):
 
     # return JSONResponse({"image":base64.b64encode(bdata).decode()})
 
+
+def delete_empty_tweet_from_list(tweets_list, mbti_list):
+    new_tweets_list = []
+    new_mbti_list = []
+    for t, m in zip(tweets_list, mbti_list):
+        print(f"[{len(t)}]: {t}")
+        if len(t) != 0:
+            new_tweets_list.append(t)
+            new_mbti_list.append(m)
+
+    return new_tweets_list, new_mbti_list
 
 # ===========================
 #    DEFINE CONTROLLOERS
@@ -213,6 +226,8 @@ async def predict_mbti(text = "Hope!"):
 @app.get("/get_trend")
 def get_trend():
     params = {"id": 23424856}
+    params = {"id": 23424856, "tweet_mode": "extended"}  # 140文字以上のツイートを省略せずに取得するパラメータ
+
 
     response = requests.request("GET", url=trend_endpoint, params=params, headers=headers)
     if response.status_code != 200:
@@ -234,7 +249,7 @@ def get_trend():
 
     print("related_tweets", json.loads(related_tweets[0]).keys())
     json_tweet = json.loads(related_tweets[0])
-    print("related_tweets", json_tweet["statuses"][0]["text"])
+    print("related_tweets", json_tweet["statuses"][0]["full_text"])
 
     # db()
 
@@ -242,7 +257,7 @@ def get_trend():
     for str_tweet_list_per_keyword in related_tweets:
         tweet_list_per_keyword = json.loads(str_tweet_list_per_keyword)["statuses"]
         for tweet_info in tweet_list_per_keyword:
-            tweet = tweet_info["text"]
+            tweet = tweet_info["full_text"]
             # --- 文章中のURL を除去 ---
             tweet = re.sub(r"(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)", "" ,tweet)
             # --- remove emoji ---
@@ -264,7 +279,7 @@ def fetch_reputation_data_by_keywords(keywords : str):
     for tweet_info in tweets_info_list["statuses"]:
         # print(len(tweets_info_list["statuses"]))
         # print(tweets_info_list["statuses"][0]["text"])
-        tweet = tweet_info["text"]
+        tweet = tweet_info["full_text"]
         # --- 文章中のURL を除去 ---
         tweet = re.sub(r"(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)", "" ,tweet)
         # --- remove emoji ---
@@ -280,6 +295,7 @@ def fetch_reputation_data_by_keywords(keywords : str):
     
     wordcloud_image = generate_wordcloud(tweets_list)
     mbti_list = [model(tweet) for tweet in tweets_list]
+    tweets_list, mbti_list = delete_empty_tweet_from_list(tweets_list, mbti_list)
     return JSONResponse({"image": wordcloud_image,
                          "tweets_list": tweets_list,
                          "mbti_list": mbti_list})
@@ -333,9 +349,13 @@ def fetch_reputation_data_by_sentence(sentence: str):
 @app.get("/fetch_reputation_data_by_trend")
 def fetch_reputation_data_by_trend():
     tweets_list, trend_word_list = get_tweets_about_trend()
+    tweets_list
     wordcloud_image = generate_wordcloud(tweets_list)
     mbti_list = [model(tweet) for tweet in tweets_list]
     mbti_all = model("".join(tweets_list))
+    tweets_list, mbti_list = delete_empty_tweet_from_list(tweets_list, mbti_list)
+    print("trend words are: ", trend_word_list)
+    print("tweets_list length: ", len(tweets_list))
     return JSONResponse({"trend": trend_word_list,
                         "image": wordcloud_image,
                          "tweet":tweets_list,
