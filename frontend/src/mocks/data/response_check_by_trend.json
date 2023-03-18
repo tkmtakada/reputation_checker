@@ -1,12 +1,8 @@
-[
-  {
-    "trend": "ワールドカップ",
-    "tweet": ["ワールドカップ面白い", "ワールドカップ応援してる", "ワールドカップまだかな"],
-    "mbti": ["ENFJ", "ENFP", "ISFJ"]
-  },
-  {
-    "trend": "ディズニー",
-    "tweet": ["ディズニー行きたい", "どっちかといえばディズニー派", "ディズニー映画大好き"],
-    "mbti": ["ESFP", "INTJ", "ISTP"]
-  }
-]
+{
+  "trend": ["a", "b", "c"],
+  "tweet": ["That's so great, I am so amazed how good yo are!! IF possible, can i join the netwrkd nexttime?", "b", "c"],
+  "mbti": ["INFP", "INFP", "INFP"],
+  "mbti_all": "INFP",
+  "image": "image",
+  "tweet_index_toShow" : [1,2,3]
+}

@@ -9,6 +9,8 @@ import { CheckByTrend } from 'pages/checkbytrend/CheckByTrend';
 // import { text} from "./getHostname";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+type variantType = "text" | "contained" | "outlined" | undefined
+
 const backgroundCSS = {
   // background: 'linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%)',
   //height: '100vh',
@@ -38,13 +40,16 @@ function App() {
   const [ mode, setMode ] = useState(0);
   const [ hostname, setHostname] = useState("");
 
+  const [ variantB1, setVariantB1 ] = useState<variantType>("contained");
+  const [ variantB2, setVariantB2 ] = useState<variantType>("outlined");
+  const [ variantB3, setVariantB3 ] = useState<variantType>("outlined");
+
   const getHostname = async () => {
     const reponse = await fetch(`${process.env.PUBLIC_URL}/hostname.txt`);
     const text = await reponse.text();
     setHostname(text);
     return text;
   };
-
 
   const Mode = ({mode}: {mode: number}) => {
     switch(mode) {
@@ -56,6 +61,27 @@ function App() {
         return <CheckBySentence />;
     }
     return null;
+  }
+
+  const handleClickB1 = () => {
+    setMode(0)
+    setVariantB1("contained")
+    setVariantB2("outlined")
+    setVariantB3("outlined")
+  }
+
+  const handleClickB2 = () => {
+    setMode(1)
+    setVariantB1("outlined")
+    setVariantB2("contained")
+    setVariantB3("outlined")
+  }
+
+  const handleClickB3 = () => {
+    setMode(2)
+    setVariantB1("outlined")
+    setVariantB2("outlined")
+    setVariantB3("contained")
   }
 
   useEffect(
@@ -73,9 +99,9 @@ function App() {
       <Typography  variant="h5" textAlign={'center'}>モードを選択</Typography>
       <ModeButtonContainer>
         <Stack spacing={2} direction="row">
-          <Button variant="outlined" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={() => setMode(0)}>単語を含むツイートの<br/>性格を診断する</Button>
-          <Button variant="outlined" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={() => setMode(1)}>今現在の世間の<br/>性格を診断する</Button>
-          <Button variant="outlined" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={() => setMode(2)}>入力した文章から<br/>性格を診断する</Button>
+          <Button variant={variantB1} color="info" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={handleClickB1}>単語を含むツイートの<br/>性格を診断する</Button>
+          <Button variant={variantB2} color="info" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={handleClickB2}>今現在の世間の<br/>性格を診断する</Button>
+          <Button variant={variantB3} color="info" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={handleClickB3}>入力した文章から<br/>性格を診断する</Button>
         </Stack>
       </ModeButtonContainer>
       <Mode mode={mode}/>
