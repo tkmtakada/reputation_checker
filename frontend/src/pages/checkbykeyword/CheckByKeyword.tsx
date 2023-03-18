@@ -7,6 +7,7 @@ import { responseByKeyword } from 'types/response';
 import { MbtiResult } from 'components/MbtiResult';
 import React from 'react';
 import { Stack } from '@mui/system';
+import { TweetMbtiCard } from 'components/TweetMbtiCard';
 
 const StyledContainer = styled.div`
   width: 700px;
@@ -59,21 +60,7 @@ export const CheckByKeyword = () => {
               post.tweets_list
                 .map((tweet, index) => {
                   return (
-                    <React.Fragment key={index}>
-                      <Stack
-                        direction={'row'}
-                        spacing={2}
-                        justifyContent="center"
-                        alignItems="center"
-                      > 
-                        <Typography variant="h6">
-                          {tweet}
-                        </Typography>
-                        <br/>
-                        <MbtiResult mbti={post.mbti_list[index]} />
-                        <br/>
-                      </Stack>
-                    </React.Fragment>
+                    <TweetMbtiCard tweet={tweet} mbti={post.mbti_list[index]} />
                   )
                 })
             }
