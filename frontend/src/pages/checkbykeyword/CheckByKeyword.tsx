@@ -1,10 +1,12 @@
 import styled from 'styled-components';
-import { Typography } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 import { SearchBox } from "components/SearchBox"
 import { useEffect, useState } from 'react';
 import { fetchReputationDataByKeyword } from './api/fetchReputationDataByKeyword';
 import { responseByKeyword } from 'types/response';
 import { MbtiResult } from 'components/MbtiResult';
+import React from 'react';
+import { Stack } from '@mui/system';
 
 const StyledContainer = styled.div`
   width: 700px;
@@ -30,18 +32,50 @@ export const CheckByKeyword = () => {
   return (
     <StyledContainer>
       <Typography variant="h6">
-        気になる単語を入力して、<br/>
-        単語に対する世間からのリアルタイムな評判を見てみよう！
+        単語を入力して、<br/>
+        単語を含むリアルタイムのtweetの性格を診断してみよう！
       </Typography>  
       <SearchBox setQuery={setQuery} placeholder="単語を入力"/>
-      <StyledResult>
-        {post ? `「${query}」にまつわるワードクラウド` : ""}
-        <br/>
-        {post? <img src={`data:image/png;base64,${post.image}`} width="350px" alt="base64"/> : ""}
-        {post ? `「${query}」を気になっている人たちのMBTI診断結果は...` : ""}
-        <br/>
-        {post ? <MbtiResult mbti={post.mbti} /> : ""}
-      </StyledResult>
+      {post ? (
+        <StyledResult>
+          <>
+            <Typography variant="h6">
+            「{query}」にまつわるワードクラウド
+            </Typography>
+            <br/>
+            <img src={`data:image/png;base64,${post.image}`} width="350px" alt="base64"/>
+            <br/>
+            <Typography variant="h6">
+              「{query}」を気になっている人たちのMBTI診断結果は...
+            </Typography>
+            <br/>
+            {
+              post.tweets_list
+                .map((tweet, index) => {
+                  return (
+                    <React.Fragment key={index}>
+                      <Stack
+                        direction={'row'}
+                        spacing={2}
+                        justifyContent="center"
+                        alignItems="center"
+                      > 
+                        <Typography variant="h6">
+                          {tweet}
+                        </Typography>
+                        <br/>
+                        <MbtiResult mbti={post.mbti_list[index]} />
+                        <br/>
+                      </Stack>
+                    </React.Fragment>
+                  )
+                })
+            }
+          </>
+        </StyledResult>
+      ) : (
+        <></>
+      )}
     </StyledContainer>
   )
 }

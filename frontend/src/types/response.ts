@@ -1,6 +1,7 @@
 export type responseByKeyword = {
-  mbti: string;
-  image?: string;
+  image: string;
+  tweets_list: string[];
+  mbti_list: string[];
 }
 
 export type responseBySentence = {
