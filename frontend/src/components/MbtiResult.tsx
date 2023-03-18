@@ -24,7 +24,6 @@ export const MbtiResult = (props : PropsType) => {
   const mbti = props.mbti; 
   const defaultWidth = "450px";
   const final_width = props.width == undefined ? defaultWidth : props.width;
-  console.log(props.width)
   switch(mbti) {
     case 'ENFJ': return <img src={ENFJ} width={final_width} />
     case 'ENFP': return <img src={ENFP} width={final_width} />

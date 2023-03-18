@@ -4,6 +4,7 @@ import json
 import emoji
 import base64
 import requests
+import collections
 from io import BytesIO
 from dotenv import load_dotenv
 from wordcloud import WordCloud
@@ -13,6 +14,8 @@ from fastapi.responses import JSONResponse
 from fastapi.responses import FileResponse
 from fastapi.encoders import jsonable_encoder
 from starlette.middleware.cors import CORSMiddleware # 追加
+
+
 # from janome.tokenizer import Tokenizer
 # from pdb import set_trace as db
 
@@ -31,9 +34,10 @@ headers = {
 
 # 訓練済みBertをロードする
 if os.environ.get("USER") == 'takumi':
-    # from mbti_classifier.mbti_classifier import *
-    print("!!! NOW DEGUB MODE. MAKE SURE TO LOAD MBTI BERT MODEL FOR PROD MODE. !!!")
-    model = lambda x : "INFP"  # MBTIClassifier()
+    from mbti_classifier.mbti_classifier import *
+    model = MBTIClassifier()
+    # print("!!! NOW DEGUB MODE. MAKE SURE TO LOAD MBTI BERT MODEL FOR PROD MODE. !!!")
+    # model = lambda x : "INFP"  # MBTIClassifier()
 else:
     model = lambda x : "INFP"  # 常にINFPを返すダミーモデル
 
@@ -352,12 +356,33 @@ def fetch_reputation_data_by_trend():
     tweets_list
     wordcloud_image = generate_wordcloud(tweets_list)
     mbti_list = [model(tweet) for tweet in tweets_list]
-    mbti_all = model("".join(tweets_list))
+    # mbti_all = model("".join(tweets_list))
     tweets_list, mbti_list = delete_empty_tweet_from_list(tweets_list, mbti_list)
     print("trend words are: ", trend_word_list)
     print("tweets_list length: ", len(tweets_list))
+
+    c = collections.Counter(mbti_list)
+    mc = c.most_common()
+    mbti1= mc[0][0]
+    tweet_index_toShow = [0, 0, 0,0,0]
+    cnt = 0
+    for idx, mbti in enumerate(mbti_list):
+        if mbti == mc[0][0]:
+            tweet_index_toShow[cnt] = idx
+            cnt += 1
+        if cnt >= 5:
+            break
+    
+    for i in range(1, 3):
+        # _i = min(i, len(mc)-1)
+        # tweet_index_toShow[i+2] = mbti_list.index(mc[_i][0])
+        if i >= len(mc) -1:
+            break
+        tweet_index_toShow.append(mbti_list.index(mc[i][0]))
+    print("tweet index to show: ", tweet_index_toShow)
     return JSONResponse({"trend": trend_word_list,
                         "image": wordcloud_image,
                          "tweet":tweets_list,
                          "mbti":mbti_list,
-                         "mbti_all": mbti_all})
+                         "mbti_all": mbti1,
+                         "tweet_index_toShow": tweet_index_toShow})

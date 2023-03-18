@@ -13,12 +13,20 @@ const StyledCard = styled.div`
 	margin: 24px;
   background-color: #f5f5f5;
 	display: flex;
+	border-radius: 24px;
+
 `;
 
 const StyledTweet = styled.div`
-	background-color: yellow;
+	background-color: white;
+	margin-right: 24px;
+	padding: 12px;
 	width : 300px;
   word-wrap: break-word;
+	font-family: -apple-system, 'BlinkMacSystemFont', Sans-Serif;
+	// border: solid 1px #1DA1F2;
+	border-radius: 24px;
+
 `;
 
 const StyledMbti = styled.div`
@@ -32,7 +40,7 @@ export const TweetMbtiCard = (props : PropsType) => {
 	return (
 		<StyledCard>
 			<StyledTweet>{tweet}</StyledTweet>
-			<MbtiResult mbti={mbti} width="350px"/> 
+			<MbtiResult mbti={mbti} width="250px"/> 
 		</StyledCard>
 	);
 };

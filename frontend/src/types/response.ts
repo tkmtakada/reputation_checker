@@ -14,4 +14,5 @@ export type responseByTrend = {
   mbti: string[];
   mbti_all: string;
   image?: string;
+  tweet_index_toShow: number[];
 }

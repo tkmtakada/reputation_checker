@@ -40,10 +40,13 @@ const StyledSection = styled.div`
 export const CheckByTrend = () => {
   const [ post, setPost ] = useState<responseByTrend>();
   const _post = {trend : ["a", "b", "c"],
-                tweet : ["a", "b", "c"],
+                tweet : ["That's so great, I am so amazed how good yo are!! IF possible, can i join the netwrkd nexttime?",
+                         "b", 
+                         "c"],
                 mbti: ["INFP", "INFP", "INFP"],
                 mbti_all: "INFP",
-                image: "image"
+                image: "image",
+                tweet_index_toShow : [1,2,3]
               }
 
   const trend_table = (trend_words : string[]) => {
@@ -75,21 +78,22 @@ export const CheckByTrend = () => {
 
     <>
     <StyledSection>Trend</StyledSection>
+    <StyledWordcloudContainer>
+      <img src={`data:image/png;base64,${post.image}`} width="600px" alt="base64"/>            
+    </StyledWordcloudContainer>
     { trend_table(post.trend) }
 
-    <StyledSection>Word Cloud</StyledSection>
-    <StyledWordcloudContainer>
-      <img src={`data:image/png;base64,${post.image}`} width="350px" alt="base64"/>            
-    </StyledWordcloudContainer>
 
     <StyledSection>MBTI</StyledSection>
     <MbtiResult mbti={post.mbti_all} /> 
 
     <StyledSection>Tweets</StyledSection>
-    <TweetMbtiCard tweet="cool" mbti="INFP"/>
-    {post.tweet.map((elt, idx) => (
-      <TweetMbtiCard tweet={elt} mbti={post.mbti[idx]} />
+    {post.tweet_index_toShow.map((idx) => (
+      <TweetMbtiCard tweet={post.tweet[idx]} mbti={post.mbti[idx]} />
     ))}
+    {/*post.tweet.map((elt, idx) => (
+      <TweetMbtiCard tweet={elt} mbti={post.mbti[idx]} />
+    )) */}
     </>
   );
 
