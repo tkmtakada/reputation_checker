@@ -27,3 +27,4 @@ backend/.env
 .vscode/launch.json
 frontend/yarn.lock
 frontend/yarn.lock
+frontend/yarn.lock

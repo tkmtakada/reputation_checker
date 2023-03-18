@@ -6,7 +6,7 @@ const baseURL = "http://127.0.0.1:8000";
 
 export const fetchReputationDataByTrend = (setPost: (post: responseByTrend) => void) => {
   axios
-    .get(`${baseURL}/api/get-trend`)
+    .get(`http://127.0.0.1:8000/fetch_reputation_data_by_trend`)
     .then((res) => {
       setPost(res.data);
     })
