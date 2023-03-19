@@ -21,6 +21,12 @@ const StyledResult = styled.div`
   margin: 'auto';
   margin-top: 50px;
 `;
+const StyledSection = styled.div`
+ font-weight: 899;
+ font-size: 48px;
+ // color:#1976d2;
+ text-decoration: underline;
+`;
 
 const StyledWordcloudContainer = styled.div`
   margin: auto;
@@ -48,10 +54,12 @@ export const CheckByKeyword = () => {
             「{query}」にまつわるワードクラウド
             </Typography>
             <br/>
+            <StyledSection>Wordcloud</StyledSection>
             <StyledWordcloudContainer>
-              <img src={`data:image/png;base64,${post.image}`} width="350px" alt="base64"/>
+              <img src={`data:image/png;base64,${post.image}`} width="600px" alt="base64"/>
             </StyledWordcloudContainer>
             <br/>
+            <StyledSection>Tweets</StyledSection>
             <Typography variant="h6">
               「{query}」を気になっている人たちのMBTI診断結果は...
             </Typography>

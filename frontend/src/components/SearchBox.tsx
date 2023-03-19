@@ -9,6 +9,7 @@ type Props = {
   placeholder: string;
   fullWidth?: boolean;
   multiline?:boolean;
+  width?: string;
 };
 
 const StyledSearchBox = styled.div`
@@ -16,7 +17,7 @@ const StyledSearchBox = styled.div`
   margin-top: 50px;
 `;
 
-export const SearchBox = ({setQuery, placeholder, fullWidth, multiline}: Props) => {
+export const SearchBox = ({setQuery, placeholder, fullWidth, multiline, width}: Props) => {
   const [ word, setWord ] = useState("");
 
   const handleSubmit = () => {
@@ -30,10 +31,11 @@ export const SearchBox = ({setQuery, placeholder, fullWidth, multiline}: Props) 
         onChange={(e) => setWord(e.target.value)}
         variant="outlined"
         placeholder={placeholder}
-        size="small"
-        fullWidth={fullWidth}
+        size="small"        
+        // fullWidth={fullWidth}
         multiline={multiline}
         autoFocus
+        sx={{width: width}}
       />
       <IconButton type="submit" onClick={handleSubmit}>
         <SearchIcon />

@@ -85,7 +85,9 @@ export const CheckByTrend = () => {
 
 
     <StyledSection>MBTI</StyledSection>
-    <MbtiResult mbti={post.mbti_all} /> 
+    <div style={{margin: 'auto'}}>
+          <MbtiResult mbti={post.mbti_all}/> 
+    </div>
 
     <StyledSection>Tweets</StyledSection>
     {post.tweet_index_toShow.map((idx) => (

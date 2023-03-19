@@ -33,7 +33,7 @@ export const CheckBySentence = () => {
       <Typography variant="h6">
         入力した文章をMBTI診断してみよう！
       </Typography>  
-      <SearchBox setQuery={setQuery} placeholder="文章を入力" fullWidth multiline/>
+      <SearchBox setQuery={setQuery} placeholder="文章を入力" width="650px" />
       <StyledResult>
         {post ? `「${query}」` : ""}
         <br/>

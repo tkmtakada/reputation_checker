@@ -16,7 +16,7 @@ const backgroundCSS = {
   //height: '100vh',
   width: '800px',
   margin: 'auto',
-  backgroundColor: '#f5f5f5'
+  paddingBottom: '36px',
 }
 
 const StyledHeader = styled.header`
@@ -96,12 +96,12 @@ function App() {
       <StyledHeader>
         世間の性格Checker
       </StyledHeader>
-      <Typography  variant="h5" textAlign={'center'}>モードを選択</Typography>
+      <Typography  variant="h5" textAlign={'center'} sx={{marginTop:"18px", marginBottom:"6px"}}>モードを選択</Typography>
       <ModeButtonContainer>
         <Stack spacing={2} direction="row">
+          <Button variant={variantB3} color="info" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={handleClickB3}>入力した文章から<br/>性格を診断する</Button>
           <Button variant={variantB1} color="info" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={handleClickB1}>単語を含むツイートの<br/>性格を診断する</Button>
           <Button variant={variantB2} color="info" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={handleClickB2}>今現在の世間の<br/>性格を診断する</Button>
-          <Button variant={variantB3} color="info" sx={{width:'250px', height:'100px', borderRadius:'15px', fontSize:'20px'}} onClick={handleClickB3}>入力した文章から<br/>性格を診断する</Button>
         </Stack>
       </ModeButtonContainer>
       <Mode mode={mode}/>
