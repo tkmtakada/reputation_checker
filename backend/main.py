@@ -138,7 +138,7 @@ def generate_wordcloud(sentence_list):
     width=900,
     background_color="white",
     max_words=100,
-    min_font_size=40,
+    min_font_size=20,
     max_font_size=200,
     collocations=False,
     font_path=fpath,

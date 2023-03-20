@@ -48,7 +48,7 @@ if __name__=="__main__":
         # output_dir="./output_{}".format(datetime.datetime.now()), 
         output_dir="./output",
         evaluation_strategy="epoch",
-        num_train_epochs=50,
+        num_train_epochs=10,
         per_device_train_batch_size=4,  # 本当は32とか
         per_device_eval_batch_size=4,
         gradient_accumulation_steps=4,
